@@ -1,0 +1,19 @@
+{
+  "name": "js-libp2p-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "aegir build",
+    "start": "aegir build && node ./build/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.8.5"
+  },
+  "dependencies": {
+    "aegir": "^37.5.6",
+    "js-libp2p-webrtc": "git://github.com/little-bear-labs/js-libp2p-webrtc#develop"
+  }
+}
