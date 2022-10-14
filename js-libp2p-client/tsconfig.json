@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+		"allowJs": true,
+		"declaration": true,
+		"emitDeclarationOnly": false,
+		"importsNotUsedAsValues": "preserve",
+		"module": "ES2022",
+    "target": "ES2022",
+		"moduleResolution": "node",
+		"outDir": "dist",
+		"declarationMap": true,
+    "allowSyntheticDefaultImports": true
+	},
+}
