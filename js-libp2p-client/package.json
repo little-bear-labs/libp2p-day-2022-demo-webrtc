@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "aegir build",
-    "start": "aegir build && node ./build/index.js"
+    "start": "aegir build && node ./build/index.js",
+    "test": "aegir test --target browser"
   },
   "author": "",
   "license": "ISC",
