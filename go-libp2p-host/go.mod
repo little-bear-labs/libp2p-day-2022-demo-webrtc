@@ -2,7 +2,7 @@ module github.com/little-bear-labs/libp2p-day-2022-demo-webrtc/go-libp2p-host
 
 go 1.18
 
-replace github.com/libp2p/go-libp2p => github.com/plauche/go-libp2p v0.20.1-0.20221012133416-6c3bf8a530a6
+replace github.com/libp2p/go-libp2p => github.com/ckousik/go-libp2p v0.20.1-0.20221017174545-36f6ae41df2c
 
 require github.com/libp2p/go-libp2p v0.23.2
 

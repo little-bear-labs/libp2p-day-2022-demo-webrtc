@@ -1,4 +1,4 @@
-import { WebRTCTransport } from "js-libp2p-webrtc";
+import { webRTC } from "js-libp2p-webrtc";
 import { Components } from "@libp2p/components";
 import { mockRegistrar, mockUpgrader } from "@libp2p/interface-mocks";
 import { createEd25519PeerId } from "@libp2p/peer-id-factory";
@@ -7,6 +7,8 @@ import { fromString as uint8arrayFromString } from "uint8arrays/from-string";
 import { pipe } from "it-pipe";
 import first from "it-first";
 import { CreateListenerOptions, symbol } from "@libp2p/interface-transport";
+import { Noise } from "@chainsafe/libp2p-noise";
+import { createLibp2p } from "libp2p";
 
 function ignoredDialOption(): CreateListenerOptions {
   let u = mockUpgrader({});
@@ -17,21 +19,23 @@ function ignoredDialOption(): CreateListenerOptions {
 
 export async function work() {
   let SERVER_MULTIADDR =
-    "/ip4/172.29.128.142/udp/53177/webrtc/certhash/uEiCBPPP6sEawr6LzGrg9slRLww7UVBkb1P1-Od9JTS1CyQ/p2p/12D3KooWEmnkG1mJREw6Ep57iRSgC1mCwfJbvwLjRriGgGVH7oDV";
+    "/ip4/172.29.128.142/udp/49340/webrtc/certhash/uEiC5ORhN5Axxl0CCuCPV8G2Sx_2z5vnJRPgua4iJmx7TnQ/p2p/12D3KooWSK7wGyeRQvZURNDZQKWfnogQ3k7dyr7pr9UjUpJV7XcM";
 
   console.log("Will test connecting to", SERVER_MULTIADDR);
 
-  let t = new WebRTCTransport();
-  let components = new Components({
-    peerId: await createEd25519PeerId(),
-    registrar: mockRegistrar(),
+  const node = await createLibp2p({
+    transports: [webRTC()],
+    connectionEncryption: [() => new Noise()],
   });
-  t.init(components);
+  await node.start();
+  // let components = new Components({
+  //   peerId: await createEd25519PeerId(),
+  //   registrar: mockRegistrar(),
+  // });
+  // t.init(components);
   let ma = multiaddr(SERVER_MULTIADDR);
   console.log("dial");
-  let conn = await t.dial(ma, ignoredDialOption());
-  console.log("new stream");
-  let stream = await conn.newStream(["/echo/1.0.0"]);
+  const stream = await node.dialProtocol(ma, ["/echo/1.0.0"]);
   let data = "dataToBeEchoedBackToMe\n";
   let response = await pipe(
     [uint8arrayFromString(data)],
