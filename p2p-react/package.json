@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@chainsafe/libp2p-noise": "^9.0.0",
+    "@chakra-ui/react": "^2.3.6",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "@libp2p/components": "^3.1.1",
     "@libp2p/interface-mocks": "^7.0.1",
     "@multiformats/multiaddr": "^11.0.5",
@@ -14,13 +17,20 @@
     "@types/node": "^16.11.65",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "framer-motion": "^7.5.4",
     "js-libp2p-webrtc": "file:../../js-libp2p-webrtc",
     "libp2p": "^0.40.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-force-graph-3d": "^1.21.13",
+    "react-hook-form": "^7.37.0",
+    "react-icons": "^4.6.0",
     "react-scripts": "5.0.1",
+    "three": "^0.145.0",
+    "three-spritetext": "^1.6.5",
     "typescript": "^4.8.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -45,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/three": "^0.144.0"
   }
 }
