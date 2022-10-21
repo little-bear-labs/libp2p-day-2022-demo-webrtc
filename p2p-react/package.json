@@ -21,6 +21,7 @@
     "js-libp2p-webrtc": "file:../../js-libp2p-webrtc",
     "libp2p": "^0.40.0",
     "react": "^18.2.0",
+    "react-advanced-news-ticker": "^1.0.1",
     "react-dom": "^18.2.0",
     "react-force-graph-3d": "^1.21.13",
     "react-hook-form": "^7.37.0",
