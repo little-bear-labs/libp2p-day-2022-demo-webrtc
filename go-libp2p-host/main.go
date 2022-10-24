@@ -47,11 +47,13 @@ func echoHandler(stream network.Stream) {
 	for {
 		reader := bufio.NewReader(stream)
 		str, err := reader.ReadString('\n')
+		log.Printf("err: %s", err)
 		if err != nil {
 			return
 		}
 		log.Printf("echo: %s", str)
 		_, err = stream.Write([]byte(str))
+		log.Printf("err: %s", err)
 		if err != nil {
 			return
 		}
