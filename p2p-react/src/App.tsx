@@ -31,6 +31,7 @@ import {
 import { dial as dialWebRtc } from "./p2p";
 import { pushable, Pushable } from "it-pushable";
 import "./App.css";
+import {Uint8ArrayList} from "uint8arraylist";
 
 type FormInputs = {
   goMultiAddr: string;
@@ -45,7 +46,7 @@ type Peers = {
   id: string;
   multiAddr: string;
   stream: Stream;
-  pushable: Pushable<Uint8Array>;
+  pushable: Pushable<Uint8ArrayList>;
 };
 
 function App() {
@@ -147,7 +148,7 @@ function App() {
 
     peers.forEach((peer, id) => {
       if (createMessage) {
-        console.log("peer.stream.source", peer.stream.source);
+        // console.log("peer.stream.source", peer.stream.source);
         // log response to console
         pipe(
           peer.stream.source,
@@ -166,10 +167,10 @@ function App() {
               console.log("> " + parsed);
             }
           }
-        );
+        ).then(() => {});
   
         // send message to the listener
-        pipe([uint8arrayFromString(createMessage)], peer.stream.sink);
+	peer.pushable.push(Uint8ArrayList.fromUint8Arrays([uint8arrayFromString(createMessage)]));
       }
     })
   }, [createMessage, peers]);
@@ -187,7 +188,7 @@ function App() {
       pushable: pushable(),
     }
 
-    pipe(pushable, stream);
+    pipe(peer.pushable, stream.sink)
 
     setPeers(peers.set(stream.id, peer));
 

@@ -1,4 +1,4 @@
-import { webRTC } from "js-libp2p-webrtc";
+import { webRTC } from 'js-libp2p-webrtc';
 // import { Components } from "@libp2p/components";
 import { /*mockRegistrar,*/ mockUpgrader } from "@libp2p/interface-mocks";
 // import { createEd25519PeerId } from "@libp2p/peer-id-factory";
