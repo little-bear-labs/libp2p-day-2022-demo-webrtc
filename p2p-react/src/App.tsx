@@ -29,6 +29,7 @@ import {
 } from "three";
 
 import { dial as dialWebRtc } from "./p2p";
+import { pushable, Pushable } from "it-pushable";
 import "./App.css";
 
 type FormInputs = {
@@ -44,6 +45,7 @@ type Peers = {
   id: string;
   multiAddr: string;
   stream: Stream;
+  pushable: Pushable<Uint8Array>;
 };
 
 function App() {
@@ -182,7 +184,10 @@ function App() {
       id: stream.id,
       multiAddr: goMultiAddr,
       stream,
+      pushable: pushable(),
     }
+
+    pipe(pushable, stream);
 
     setPeers(peers.set(stream.id, peer));
 
