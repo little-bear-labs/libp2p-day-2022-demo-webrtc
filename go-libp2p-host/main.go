@@ -16,7 +16,7 @@ import (
 	webrtc "github.com/libp2p/go-libp2p/p2p/transport/webrtc"
 )
 
-var listenerIp = net.IPv4(0, 0, 0, 0)
+var listenerIp = net.IPv4(127, 0, 0, 1)
 
 func init() {
 	ifaces, err := net.Interfaces()
