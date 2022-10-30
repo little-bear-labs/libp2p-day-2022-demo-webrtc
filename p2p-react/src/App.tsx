@@ -31,7 +31,7 @@ import {
 import { dial as dialWebRtc } from "./p2p";
 import { pushable, Pushable } from "it-pushable";
 import "./App.css";
-import {Uint8ArrayList} from "uint8arraylist";
+import { Uint8ArrayList } from "uint8arraylist";
 
 type FormInputs = {
   goMultiAddr: string;
@@ -64,20 +64,19 @@ function App() {
   const fgRef = useRef();
   const distance = 100;
   let stream: Stream;
-  const sdks = [
-    { label: "Go", value: "go" },
-    { label: "Rust", value: "rust" },
-  ];
+  const sdks = [{ label: "Go", value: "go" }];
 
   const truncate = (value: string, size: number = 20): string => {
-    const half = Math.max(size, 1)/2;
-  
+    const half = Math.max(size, 1) / 2;
+
     if (value.length > 20) {
-      return value.substring(0, half) + '...' + value.substring(value.length - half);
+      return (
+        value.substring(0, half) + "..." + value.substring(value.length - half)
+      );
     }
 
     return value;
-  }
+  };
 
   // add a node to the graph
   const AddNode = async (id: string, sdk: string) => {
@@ -130,13 +129,21 @@ function App() {
     switch (type) {
       case "dial":
         let id = await dial(values.goMultiAddr, values.dialSdk);
-        setLogger(logger.concat(`Dialing ${values.dialSdk} peer ${truncate(id)}`));
-        reset({ goMultiAddr: "", dialSdk: "" });
+        setLogger(
+          logger.concat(`Dialing ${values.dialSdk} peer ${truncate(id)}`)
+        );
+        reset({ goMultiAddr: "" });
         break;
       case "message":
-        setLogger(logger.concat(`Sending message "${values.message}" to ${truncate(values.peer)} peer`));
+        setLogger(
+          logger.concat(
+            `Sending message "${values.message}" to ${truncate(
+              values.peer
+            )} peer`
+          )
+        );
         await message(values.message, values.peer);
-        reset({ message: "", peer: "" });
+        reset({ message: "" });
         break;
     }
   };
@@ -152,27 +159,36 @@ function App() {
         // log response to console
         pipe(
           peer.stream.source,
-          (source) => map(source, (buf) => {
-            console.log("source", source);
-            console.log("buf", buf);
-            return uint8arrayToString(buf.subarray());
-          }),
+          (source) =>
+            map(source, (buf) => {
+              console.log("source", source);
+              console.log("buf", buf);
+              return uint8arrayToString(buf.subarray());
+            }),
           // Sink function
           async (source) => {
             // For each chunk of data
             for await (const msg of source) {
-              // Output the data as a utf8 string     
-              const parsed = msg.toString().replace("\n", "");  
-              setLogger(logger.concat(`Received message "${parsed}" from peer ${truncate(peer.stream.id)}`));
+              // Output the data as a utf8 string
+              const parsed = msg.toString().replace("\n", "");
+              setLogger(
+                logger.concat(
+                  `Received message "${parsed}" from peer ${truncate(
+                    peer.stream.id
+                  )}`
+                )
+              );
               console.log("> " + parsed);
             }
           }
         ).then(() => {});
-  
+
         // send message to the listener
-	peer.pushable.push(Uint8ArrayList.fromUint8Arrays([uint8arrayFromString(createMessage)]));
+        peer.pushable.push(
+          Uint8ArrayList.fromUint8Arrays([uint8arrayFromString(createMessage)])
+        );
       }
-    })
+    });
   }, [createMessage, peers]);
 
   // connect to a peer
@@ -186,9 +202,9 @@ function App() {
       multiAddr: goMultiAddr,
       stream,
       pushable: pushable(),
-    }
+    };
 
-    pipe(peer.pushable, stream.sink)
+    pipe(peer.pushable, stream.sink);
 
     setPeers(peers.set(stream.id, peer));
 
@@ -205,7 +221,7 @@ function App() {
           (link.target as any).id === peer || (link.source as any).id === peer
       )
       .forEach((link) => {
-        const delay =  (link.target as any).id === peer ? 0 : 300;
+        const delay = (link.target as any).id === peer ? 0 : 300;
         setTimeout(() => (fgRef.current as any).emitParticle(link), delay);
       });
 
@@ -248,7 +264,8 @@ function App() {
               <GridItem w="100%">
                 <Select
                   {...register("dialSdk", { required: false })}
-                  placeholder="Client SDK"
+                  defaultValue="Go"
+                  // placeholder="Client SDK"
                   size="lg"
                 >
                   {sdks.map((option, index) => (
@@ -281,7 +298,7 @@ function App() {
               <GridItem w="100%">
                 <Select
                   {...register("peer", { required: false })}
-                  placeholder="Peer"
+                  // placeholder="Peer"
                   size="lg"
                 >
                   {Array.from(peers.values()).map((key, index) => (
@@ -306,7 +323,6 @@ function App() {
           </form>
 
           {/* <div style={{marginTop: "20px"}}>Result: {resultMsg}</div> */}
-
 
           <Grid templateColumns="repeat(2, 1fr)" gap={0}>
             <GridItem w="100%">
@@ -353,18 +369,25 @@ function App() {
                   return group;
                 }}
               />
-
             </GridItem>
             <GridItem w="100%">
-                <div style={{ padding: "10px", width: "100%", height: "300px", background: "black", marginTop: "40px", overflowY: "scroll", color: "white"}}>
-                  {logger.map((log, index) => (
-                    <div>{log}</div>
-                  ))}
-                </div>
+              <div
+                style={{
+                  padding: "10px",
+                  width: "100%",
+                  height: "300px",
+                  background: "black",
+                  marginTop: "40px",
+                  overflowY: "scroll",
+                  color: "white",
+                }}
+              >
+                {logger.map((log, index) => (
+                  <div>{log}</div>
+                ))}
+              </div>
             </GridItem>
           </Grid>
-
-
         </Box>
       </Container>
     </div>
